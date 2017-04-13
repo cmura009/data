@@ -1,0 +1,7 @@
+FROM python:2.7
+MAINTAINER Nagarajan Prabakar <prabakar@cis.fiu.edu>
+
+RUN pip install mrjob
+RUN touch /var/log/messages
+
+CMD tail -f /var/log/messages

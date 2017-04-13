@@ -1,0 +1,16 @@
+FROM mongo
+MAINTAINER Nagarajan Prabakar <prabakar@cis.fiu.edu>
+
+# Add Files
+ADD ./seed_mongo /mongo_init/
+ADD ./data/json /data/
+ADD ./data/csv/shopping /data/shopping/
+ADD ./data/csv/pet /data/pet/
+
+# Setup Scripts
+RUN chmod +x /mongo_init/stripCR.sh
+RUN /mongo_init/stripCR.sh /mongo_init/init.sh
+RUN chmod +x /mongo_init/init.sh
+
+# On startup, run Mongo Initialization Script
+CMD /mongo_init/init.sh

@@ -1,0 +1,42 @@
+version: '2'
+services:
+
+  scripts:
+    container_name: "scripts"
+    build:
+      context: .
+      dockerfile: mapreduce_dockerfile
+    volumes:
+      - "./scripts:/scripts:z"
+      - "./data/csv:/data:z"
+  
+  hive:
+    image: "kliew/hive-dev"
+    container_name: "hive"
+    volumes:
+      - "./data/csv:/data:z"
+      - "./hive:/hive_init:z"
+  
+  mongo:
+    image: "mongo"
+    container_name: "mongo"
+    user: "mongodb"
+    volumes:
+      - "./data/json:/data:z"
+      - "./data/csv/shopping:/data/shopping/:z"
+      - "./data/csv/pet:/data/pet/:z"
+      - "./mongo:/mongo_init:z"
+  seed_mongo:
+    container_name: "seed_mongo"
+    build:
+      context: .
+      dockerfile: seedmongo_dockerfile
+    links:
+      - "mongo"
+  mongoui:
+    image: "mongo-express"
+    container_name: "mongo_ui"
+    links:
+      - "mongo"
+    ports:
+      - "8081:8081"
