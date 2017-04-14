@@ -9,7 +9,7 @@ class CategoryCount(MRJob):
 # each input lines consists of city, productCategory, price, and paymentMode
 
     def mapper(self, _, line):
-        # create a key-value pair with key: product category and value:1
+        # create a key-value pair with key: product category and value: 1
         line_cols = line.split(',')
         yield line_cols[1], 1
 
